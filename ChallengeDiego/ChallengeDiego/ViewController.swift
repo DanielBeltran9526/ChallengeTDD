@@ -10,27 +10,14 @@ import UIKit
 
 class ViewController: UIViewController {
 
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        // Do any additional setup after loading the view, typically from a nib.
-//    }
-//
-//    override func didReceiveMemoryWarning() {
-//        super.didReceiveMemoryWarning()
-//        // Dispose of any resources that can be recreated.
-//    }
-    
-    
     var arrayTest :[Int] = []
-  //var arrayTest = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-   // var arrayTest = [1,7,3,8,9,1,7,46,9,10,11,12,13,14,2,16,17,18,19,20]
+    //var arrayTest = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    // var arrayTest = [1,7,3,8,9,1,7,46,9,10,11,12,13,14,2,16,17,18,19,20]
     //var estado = String()
-    
-    
-    
-    private(set)var estado = String() {
+ 
+    private(set)var InfoState = String() {
         didSet{
-            updateLAbel()
+            updateInformationLabel()
         }
     }
     
@@ -40,9 +27,9 @@ class ViewController: UIViewController {
         }
     }
     
-    func updateLAbel(){
+    func updateInformationLabel(){
      
-        label.text = estado
+        label.text = InfoState
     }
     
     func uodateLabelArray(){
@@ -57,15 +44,14 @@ class ViewController: UIViewController {
     }
     @IBOutlet weak var label: UILabel!{
         didSet{
-            updateLAbel()
+            updateInformationLabel()
         }
     }
     
     
     @IBAction func ActionButton(_ sender: UIButton) {
         if arrayTest.count == 20 {
-            OrganizeTheArray(array: arrayTest)
-         // Test(array: arrayTest)
+        OrganizeTheArray(array: arrayTest)
         }else {
             FillInTheArray()
         }
@@ -79,9 +65,8 @@ class ViewController: UIViewController {
             let randomInt = Int(arc4random_uniform(UInt32(100)))
             arrayTest.append( randomInt)
         }
-       print(arrayTest)
-       // Test(array: arrayTest)
-        OrganizeTheArray(array: arrayTest)
+    print(arrayTest)
+    OrganizeTheArray(array: arrayTest)
     }
     
     
@@ -98,7 +83,6 @@ class ViewController: UIViewController {
             if firstPositionOnArray < LastPositionOnArray{
                 testOrder(array: array)
             }else {
-                //ArrayFail(status: "your array is not successfully organized")
                 OrganizeTheArray(array: array)
             }
         }
@@ -107,30 +91,24 @@ class ViewController: UIViewController {
 
     func testOrder (array :Array<Int>) {
         let Last = array.count
-        var forzeOut = false
+        var forzeClose = false
         
-        if(array.count == 0){
-            forzeOut = true
-        }else {
             for position in 0...(Last-2){
                 
                 let inspectorOfPositions = array[position]
                 let inspectorOfNextPosition = array[position+1]
-                
-                //print(inspectorOfPositions)
-                //print(inspectorOfPositionLast)
-                
+            
                 if inspectorOfPositions > inspectorOfNextPosition {
-                    forzeOut = true
+                    forzeClose = true
                 }
-                if forzeOut == true {
+                if forzeClose == true {
                     break
                 }
             }
-        }
         
         
-        if forzeOut == false {
+        
+        if forzeClose == false {
         ArrayFail(status: "your array is  successfully organized",array: array)
         }else {
         ArrayFail(status: "your array is not successfully organized",array: array)
@@ -141,26 +119,22 @@ class ViewController: UIViewController {
         
 
         var organizedArray = array
-        var varMinor = organizedArray[0]
-        var varGreater = organizedArray[1]
+        var Minor = organizedArray[0]
+        var Greater = organizedArray[1]
         
         let lastPositionInArray = organizedArray.count-2
         
         for counter in 0...lastPositionInArray{
             
             if organizedArray[counter] <= organizedArray[counter+1] {
-                varMinor = organizedArray[counter]
-                varGreater = organizedArray[counter+1]
+                Minor = organizedArray[counter]
+                Greater = organizedArray[counter+1]
             }else {
-                varMinor = organizedArray[counter+1]
-                varGreater = organizedArray[counter]
-                organizedArray[counter] = varMinor
-                organizedArray[counter+1] = varGreater
-                //varMinor = organizedArray[counter+1]
-                //varGreater = organizedArray[counter+2]
+                Minor = organizedArray[counter+1]
+                Greater = organizedArray[counter]
+                organizedArray[counter] = Minor
+                organizedArray[counter+1] = Greater
             }
-            
-           // print(counter)
         }
         
         let firstPositionInArray = organizedArray.count-1
@@ -168,33 +142,21 @@ class ViewController: UIViewController {
         for backCounter in (1...firstPositionInArray).reversed()
         {
             if organizedArray[backCounter] >= organizedArray[backCounter-1] {
-                varMinor = organizedArray[backCounter-1]
-                varGreater = organizedArray[backCounter]
+                Minor = organizedArray[backCounter-1]
+                Greater = organizedArray[backCounter]
             }else {
-                varMinor = organizedArray[backCounter]
-                varGreater = organizedArray[backCounter-1]
-                organizedArray[backCounter] = varGreater
-                organizedArray[backCounter-1] = varMinor
-                //varMinor = organizedArray[counter+1]
-                //varGreater = organizedArray[counter+2]
+                Minor = organizedArray[backCounter]
+                Greater = organizedArray[backCounter-1]
+                organizedArray[backCounter] = Greater
+                organizedArray[backCounter-1] = Minor
             }
-            
-           // print(counter)
-            
-            
         }
         Test(array: organizedArray)
-        
     }
-    
-    
-    
     func ArrayFail(status:String, array :Array<Int>){
         print(status)
-        estado = status
+        InfoState = status
         labelArray = array.description
-    
-      //  updateLAbel()
     }
 }
 
